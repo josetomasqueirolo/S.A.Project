@@ -1,32 +1,28 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const path = require('path');
-const authRoutes = require('./routes/authRoutes');
+const mongoose = require('mongoose');
+const authRoutes = require('./routes/authRoutes'); // Importa el archivo de rutas
 
 const app = express();
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true })); // Asegúrate de que los formularios sean procesados
+app.use(express.static(path.join(__dirname, 'views'))); // Si el archivo register.html está en 'public'
 
-// Conexión a MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('Connected to MongoDB'))
-    .catch((err) => console.error('Could not connect to MongoDB', err));
-
-// ### RUTAS ###
-
-// Log In
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'login.html'));
-});
-
-// Register
+// Asegúrate de que la ruta '/register' sirva la página HTML de registro
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'register.html'));
+    res.sendFile(path.join(__dirname, 'views', 'register.html')); // Cambia 'public' si tu carpeta es diferente
 });
 
-// Usar las rutas de autenticación
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => console.error('Could not connect to MongoDB', err));
+
+// Usa el router para las rutas de autenticación
 app.use('/auth', authRoutes);
 
+// Puerto para escuchar
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

@@ -1,3 +1,4 @@
+// routes/authroutes.js
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -39,8 +40,6 @@ router.post('/register', async (req, res) => {
   }
 });
 
-
-
 // Ruta para iniciar sesión y obtener un token de autenticación
 router.post('/login', async (req, res) => {
   try {
@@ -56,7 +55,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-
 // Ruta protegida de ejemplo
 router.get('/protected', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
@@ -70,6 +68,5 @@ router.get('/protected', async (req, res) => {
     res.status(400).send('Invalid token');
   }
 });
-
 
 module.exports = router;
