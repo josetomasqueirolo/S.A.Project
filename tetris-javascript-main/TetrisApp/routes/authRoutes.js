@@ -9,13 +9,37 @@ const router = express.Router();
 router.post('/register', async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = new User({ username, password });
+    console.log('Received data:', req.body); // Verifica lo que llega
+
+    if (!username || !password) {
+      return res.status(400).send('Username and password are required');
+    }
+
+    // Verificar si ya existe un usuario con el mismo nombre de usuario
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).send('Username already taken');
+    }
+
+    // Cifrar la contraseña
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Crear un nuevo usuario
+    const user = new User({
+      username,
+      password: hashedPassword,
+    });
+
+    // Guardar el usuario en la base de datos
     await user.save();
-    res.status(201).send('User created');
+
+    res.status(201).send('User registered successfully');
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).send('Error registering user: ' + error.message);
   }
 });
+
+
 
 // Ruta para iniciar sesión y obtener un token de autenticación
 router.post('/login', async (req, res) => {
@@ -32,6 +56,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
+
 // Ruta protegida de ejemplo
 router.get('/protected', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
@@ -45,5 +70,6 @@ router.get('/protected', async (req, res) => {
     res.status(400).send('Invalid token');
   }
 });
+
 
 module.exports = router;

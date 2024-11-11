@@ -13,9 +13,16 @@ mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('Could not connect to MongoDB', err));
 
-// Ruta para la vista de inicio de sesión
+// ### RUTAS ###
+
+// Log In
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'login.html'));
+});
+
+// Register
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'register.html'));
 });
 
 // Usar las rutas de autenticación
