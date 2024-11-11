@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"  # Mapea el puerto 3000 del contenedor al puerto 3000 del host
+    environment:
+      - MONGODB_URI=mongodb://db:27017/myapp  # Apunta a MongoDB usando el nombre del servicio `db`
+      - SECRET_KEY=mysecretkey
+    depends_on:
+      - db
+
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"  # Exponer MongoDB (opcional)
+    volumes:
+      - mongo-data:/data/db  # Almacena los datos en un volumen para persistencia
+
+volumes:
+  mongo-data:
