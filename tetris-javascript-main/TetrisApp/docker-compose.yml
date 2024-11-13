@@ -1,22 +1,48 @@
+# version: '3.8'
+
+# services:
+#   app:
+#     build: .
+#     ports:
+#       - "3000:3000"  # Mapea el puerto 3000 del contenedor al puerto 3000 del host
+#     environment:
+#       - MONGODB_URI=mongodb://db:27017/myapp  # Apunta a MongoDB usando el nombre del servicio `db`
+#       - SECRET_KEY=mysecretkey
+#     depends_on:
+#       - db
+
+#   db:
+#     image: mongo:latest
+#     ports:
+#       - "27017:27017"  # Exponer MongoDB (opcional)
+#     volumes:
+#       - mongo-data:/data/db  # Almacena los datos en un volumen para persistencia
+
+# volumes:
+#   mongo-data:
 version: '3.8'
 
 services:
   app:
     build: .
     ports:
-      - "3000:3000"  # Mapea el puerto 3000 del contenedor al puerto 3000 del host
+      - "3000:3000"  # Map port 3000 of the container to port 3000 of the host
     environment:
-      - MONGODB_URI=mongodb://db:27017/myapp  # Apunta a MongoDB usando el nombre del servicio `db`
+      - MONGODB_URI=mongodb://db:27017/myapp  # Point to MongoDB using the `db` service name
       - SECRET_KEY=mysecretkey
+    volumes:
+      - .:/app  # Bind mount the current directory to `/app` in the container
+      - /app/node_modules  # Avoid overwriting node_modules inside the container
     depends_on:
       - db
+    command: nodemon /app/index.js  # Start the app with nodemon to enable hot-reloading
 
   db:
     image: mongo:latest
     ports:
-      - "27017:27017"  # Exponer MongoDB (opcional)
+      - "27017:27017"  # Expose MongoDB (optional)
     volumes:
-      - mongo-data:/data/db  # Almacena los datos en un volumen para persistencia
+      - mongo-data:/data/db  # Persist MongoDB data
 
 volumes:
   mongo-data:

@@ -19,14 +19,6 @@ userSchema.pre('save', async function (next) {
   }
 });
 
-// Método para verificar la contraseña
-userSchema.methods.comparePassword = async function (password) {
-  try {
-    return await bcrypt.compare(password, this.password);  // Compara la contraseña proporcionada con la cifrada
-  } catch (error) {
-    throw new Error('Error comparing password');
-  }
-};
 
 // Exportar el modelo de usuario
 module.exports = mongoose.model('User', userSchema);

@@ -13,6 +13,9 @@ app.use(express.static(path.join(__dirname, 'views'))); // Si el archivo registe
 app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'register.html')); // Cambia 'public' si tu carpeta es diferente
 });
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'login.html')); // Cambia 'public' si tu carpeta es diferente
+});
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
