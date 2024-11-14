@@ -54,43 +54,6 @@ router.post('/login', async (req, res) => {
     res.status(400).send(error.message);
   }
 });
-// Ruta para iniciar sesión y obtener un token de autenticación
-// Ruta para iniciar sesión y obtener un token de autenticación
-// Ruta para iniciar sesión y obtener un token de autenticación
-// router.post('/login', async (req, res) => {
-//   try {
-//     const { username, password } = req.body;
-
-//     // Use async/await for the database query
-//     const user = await User.findOne({ username });
-
-//     if (!user) {
-//       return res.status(400).json({ success: false, message: 'Invalid credentials' });
-//     }
-
-//     // Use bcrypt.compare with a callback to compare the passwords
-//     bcrypt.compare(password, user.password, (err, isMatch) => {
-//       if (err) {
-//         // Handle bcrypt comparison error
-//         return res.status(500).send('Error comparing passwords: ' + err.message);
-//       }
-
-//       if (isMatch) {
-//         // Passwords match, create a JWT token
-//         const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, { expiresIn: '1h' });
-//         return res.json({ success: true, token });
-//       } else {
-//         // Passwords do not match
-//         return res.status(400).json({ success: false, message: 'Passwords do not match' });
-//       }
-//     });
-//   } catch (error) {
-//     res.status(400).send(error.message);
-//   }
-// });
-
-
-
 
 // Ruta protegida de ejemplo
 router.get('/protected', async (req, res) => {

@@ -11,7 +11,7 @@ router.post('/create', async (req, res) => {
     try {
         const { lobby_name } = req.body;
         console.log('Received:', req.body);
-        
+
         // TODO SAVE THE SCHEMA
         // Create a new lobby
         const newLobby = {
@@ -22,7 +22,7 @@ router.post('/create', async (req, res) => {
         // Save the lobby to the database
         const lobby = new Lobby(newLobby);
         await lobby.save();
-        
+
         console.log('Lobby saved:', newLobby);
 
         // Associate the lobby with the user
@@ -35,10 +35,10 @@ router.post('/create', async (req, res) => {
 
 
 
-router.get('/lobbys', async (req, res) => {
+router.get('/lobbies', async (req, res) => {
     try {
         const lobbys = await Lobby.find({ createdBy: req.userId });
-        console.log('Lobbys:', lobbys);
+        console.log('Lobbies:', lobbys);
         let html = `
             <!DOCTYPE html>
             <html>
@@ -59,11 +59,11 @@ router.get('/lobbys', async (req, res) => {
         `;
         res.status(200).send(html);
     } catch (error) {
-        res.status(500).send({ message: 'Error fetching lobbys', error: error.message });
+        res.status(500).send({ message: 'Error fetching lobbies', error: error.message });
     }
 });
 
-router.get('/lobby/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         console.log('Fetching lobby:', req.params);
         const lobby = await Lobby.findById(req.params.id);
@@ -73,11 +73,10 @@ router.get('/lobby/:id', async (req, res) => {
     }
 });
 
-router.put('/lobby/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
 
     try {
         const lobby = await Lobby.findById(req.params.id);
-       
         lobby.current_users += 1;
         await lobby.save();
         res.status(200).send(lobby);
@@ -86,7 +85,7 @@ router.put('/lobby/:id', async (req, res) => {
     }
 });
 
-router.post('join', async (req, res) => {
+router.post('/join', async (req, res) => {
     try {
         const { lobby_id } = req.body;
         const lobby = await Lobby.findById(lobby_id);

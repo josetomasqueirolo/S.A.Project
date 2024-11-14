@@ -10,6 +10,10 @@ app.use(express.urlencoded({ extended: true })); // Asegúrate de que los formul
 app.use(express.static(path.join(__dirname, 'views'))); // Si el archivo register.html está en 'public'
 
 // Asegúrate de que la ruta '/register' sirva la página HTML de registro
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'index.html')); // Cambia 'public' si tu carpeta es diferente
+});
+
 app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'register.html')); // Cambia 'public' si tu carpeta es diferente
 });
@@ -18,11 +22,11 @@ app.get('/login', (req, res) => {
 });
 
 // make a get for this
-app.get('create', (req, res) => {
+app.get('/create', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'create.html')); // Cambia 'public' si tu carpeta es diferente
 } );
 
-app.get('lobby/', (req, res) => {
+app.get('/lobby/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'lobby.html')); // Cambia 'public' si tu carpeta es diferente
 });
 
