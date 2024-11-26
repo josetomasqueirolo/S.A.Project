@@ -32,7 +32,11 @@ jobs:
           working-directory: ./tetris-javascript-main/TetrisApp
           run: npm install
 
-        # 5. Ejecutar pruebas
+        # 5. Dar permisos de ejecución a los archivos de .bin
+        - name: Fix permissions
+          run: chmod -R 755 ./tetris-javascript-main/TetrisApp/node_modules/.bin
+
+        # 6. Ejecutar las pruebas
         - name: Run tests
           working-directory: ./tetris-javascript-main/TetrisApp
           run: npm test
