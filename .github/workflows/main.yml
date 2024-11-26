@@ -22,10 +22,10 @@ jobs:
                 node-version: 18
         
         -   name: Navigate to app directory
-            run: cd ./TetrisApp
+            run: cd ./tetris-javascript-main/TetrisApp
 
         -   name: Install dependencies
-            working-directory: ./TetrisApp
+            working-directory: ./tetris-javascript-main/TetrisApp
             run: npm install
 
         -   name: Run tests
