@@ -13,21 +13,26 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-        -   name: Check out repository
-            uses: actions/checkout@v3
+        # 1. Clonar el repositorio
+        - name: Check out repository
+          uses: actions/checkout@v3
 
-        -   name: Set up Node.js
-            uses: actions/setup-node@v3
-            with:
-                node-version: 18
-        
-        -   name: Navigate to app directory
-            run: cd ./tetris-javascript-main/TetrisApp
+        # 2. Verificar la estructura del repositorio
+        - name: List repository structure
+          run: ls -R
 
-        -   name: Install dependencies
-            working-directory: ./tetris-javascript-main/TetrisApp
-            run: npm install
+        # 3. Configurar Node.js
+        - name: Set up Node.js
+          uses: actions/setup-node@v3
+          with:
+              node-version: 18
 
-        -   name: Run tests
-            working-directory: TetrisApp
-            run: npm test
+        # 4. Instalar dependencias
+        - name: Install dependencies
+          working-directory: ./tetris-javascript-main/TetrisApp
+          run: npm install
+
+        # 5. Ejecutar pruebas
+        - name: Run tests
+          working-directory: ./tetris-javascript-main/TetrisApp
+          run: npm test
