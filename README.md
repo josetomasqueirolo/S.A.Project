@@ -9,6 +9,7 @@ docker-compose up --build
 ## Workflow 1: Login y Registro de usuarios
 
 ### register
+---
 #### Uso
 Como se utilizo MongoDB, el uso es atravez del endpoint *register*, donde mediante el uso de un **POST** se pueden agregar usuarios, este endpoint requiere de:
 * username: *str*
