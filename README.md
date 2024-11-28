@@ -47,6 +47,7 @@ router.post('/register', async (req, res) => {
 
 
 ### login
+---
 #### Uso
 Como se utilizo MongoDB, el uso es atravez del endpoint *login*, donde mediante el uso de un **POST** se pueden agregar usuarios, este endpoint requiere de:
 * username: *str*
@@ -79,6 +80,7 @@ router.post('/login', async (req, res) => {
 ```
 ## Workflow 2: creacion y listado de lobbies
 ### Create
+---
 #### Uso
 Como se utilizo MongoDB, el uso es atravez del endpoint *create*, donde mediante el uso de un **POST** se puede crear un lobby, este endpoint requiere de:
 * name: *str*
@@ -114,6 +116,7 @@ router.post('/create', async (req, res) => {
 });
 ```
 ### Listar lobbies
+---
 #### Uso
 Simplemente se realiza un metodo get contra la ruta de `/lobby/lobbies` y retorna un arreglo de documentos con los lobbys en formato de listas html.
 
