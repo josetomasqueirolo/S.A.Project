@@ -76,6 +76,82 @@ router.post('/login', async (req, res) => {
   }
 });
 ```
+## Workflow 2: creacion y listado de lobbies
+### Create
+#### Uso
+Como se utilizo MongoDB, el uso es atravez del endpoint *create*, donde mediante el uso de un **POST** se puede crear un lobby, este endpoint requiere de:
+* name: *str*
+
+#### Implementacion
+Mediante el uso de *moongose*, se crea el lobby realizando, agregando un documento a la base de datos de lobby, con esto, se le agrega un parametro el cual es la cantidad de jugadores activos en ese momento.
+```js
+
+router.post('/create', async (req, res) => {
+    try {
+        const { lobby_name } = req.body;
+        console.log('Received:', req.body);
+
+        // TODO SAVE THE SCHEMA
+        // Create a new lobby
+        const newLobby = {
+            name: lobby_name,
+            current_users: 1
+        };
+        console.log('New lobby:', newLobby);
+        // Save the lobby to the database
+        const lobby = new Lobby(newLobby);
+        await lobby.save();
+
+        console.log('Lobby saved:', newLobby);
+
+        // Associate the lobby with the user
+
+        res.status(201).send({ message: 'Lobby created successfully', lobby: newLobby });
+    } catch (error) {
+        res.status(500).send({ message: 'Error creating lobby', error: error.message });
+    }
+});
+```
+### Listar lobbies
+#### Uso
+Simplemente se realiza un metodo get contra la ruta de `/lobby/lobbies` y retorna un arreglo de documentos con los lobbys en formato de listas html.
+
+#### Implementacion
+Se realiza con *moongose* una busqueda de todos los documentos lobby que existen y se retornan en un listados en un html.
+
+```js
+router.get('/lobbies', async (req, res) => {
+    try {
+        const lobbys = await Lobby.find({ createdBy: req.userId });
+        console.log('Lobbies:', lobbys);
+        let html = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Your Lobbies</title>
+            </head>
+            <body>
+                <h1>Your Lobbies</h1>
+                <ul>
+        `;
+        lobbys.forEach(lobby => {
+            html += `<li><a href="${lobby._id}">${lobby.name}</a></li>`;
+        });
+        html += `
+                </ul>
+            </body>
+            </html>
+        `;
+        res.status(200).send(html);
+    } catch (error) {
+        res.status(500).send({ message: 'Error fetching lobbies', error: error.message });
+    }
+});
+```
+
+
+
+
 
 
 
